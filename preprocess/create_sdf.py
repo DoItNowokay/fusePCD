@@ -859,16 +859,22 @@ if __name__ == "__main__":
     cat = FLAGS.category
 
     # lst_dir, cats, all_cats, raw_dirs = get_sdf_file_lst.get_all_info(dset)
-
-    info_file = '../dataset_info_files/info-shapenet.json'
+    if dset == 'shapenet':
+        info_file = '../dataset_info_files/info-shapenet.json'
+    elif dset == 'building':
+        info_file = '../dataset_info_files/info-building.json'
+    
     with open(info_file) as json_file:
         info_data = json.load(json_file)
-        lst_dir, cats, all_cats, raw_dirs = info_data["lst_dir"], info_data['cats'], info_data['all_cats'], info_data['raw_dirs_v1']
+        if dset == 'shapenet':
+            lst_dir, cats, all_cats, raw_dirs = info_data["lst_dir"], info_data['cats'], info_data['all_cats'], info_data['raw_dirs_v1']
+        elif dset == 'building':
+            raw_dirs = info_data['raw_dirs_v1']
 
     if dset == 'shapenet':
         if cat != 'all':
             cats = {cat: cats[cat]}
-    elif dset != 'abc':
+    elif dset != 'abc' and dset != 'building':
         if cat == 'all':
             FLAGS.cats = all_cats
         else:
